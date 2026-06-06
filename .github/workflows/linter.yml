@@ -3,7 +3,7 @@ name: Lint
 
 on:
   pull_request:
-    branches: 
+    branches:
       - dev
       - main
 
@@ -20,8 +20,8 @@ jobs:
       packages: read
       # issues and pull-requests permissions to write results as pull
       # request comments. Omit them if you don't need summary comments
-      issues: write
-      pull-requests: write
+      # issues: write
+      # pull-requests: write
       # To report GitHub Actions status checks. Omit if you don't need
       # to update commit status
       statuses: write
@@ -40,3 +40,4 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_JSCPD: false

@@ -1,0 +1,10 @@
+{
+  "name": "self-hosted-server",
+  "version": "1.0.0",
+  "repository": "git@github.com:CoreyK0103/self-hosted-server.git",
+  "author": "CoreyK0103 <coreyjknight@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^3.8.3"
+  }
+}
