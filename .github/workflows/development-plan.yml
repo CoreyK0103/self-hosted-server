@@ -10,6 +10,9 @@ jobs:
     environment: development-plan
     env:
       BUILD_ENV: dev
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v6
       - name: Configure AWS Credentials

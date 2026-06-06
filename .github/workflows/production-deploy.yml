@@ -10,6 +10,9 @@ jobs:
     environment: production
     env:
       BUILD_ENV: prod
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v6
       - name: Configure AWS Credentials
