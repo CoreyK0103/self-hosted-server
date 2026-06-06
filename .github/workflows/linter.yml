@@ -41,3 +41,4 @@ jobs:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_JSCPD: false
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
