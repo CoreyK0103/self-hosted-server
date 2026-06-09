@@ -13,6 +13,9 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    concurrency:
+      group: production
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v6
         with:
