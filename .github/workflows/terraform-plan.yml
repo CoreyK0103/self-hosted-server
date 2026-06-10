@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform-plan:
-    name: Terraform (${{ github.ref_name == 'main' && 'production' || 'development' }})
+    name: Terraform (${{ github.base_ref == 'main' && 'production' || 'development' }})
     runs-on: ubuntu-latest
     environment: ${{ github.base_ref == 'main' && 'production-plan' || 'development-plan' }}
     env:
