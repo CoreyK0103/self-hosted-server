@@ -11,13 +11,10 @@ on:
         options:
           - development
           - production
-          - both
-  schedule:
-    - cron: "0 21 * * *" # Every day at 9 PM UTC
 
 jobs:
   development-teardown:
-    if: github.event_name == 'schedule' || github.event.inputs.environment == 'development' || github.event.inputs.environment == 'both'
+    if: github.event_name == 'schedule' || github.event.inputs.environment == 'development'
     runs-on: ubuntu-latest
     environment: development
     env:
@@ -50,7 +47,7 @@ jobs:
         run: make destroy ARGS="-no-color -auto-approve"
 
   production-teardown:
-    if: github.event_name == 'schedule' || github.event.inputs.environment == 'production' || github.event.inputs.environment == 'both'
+    if: github.event_name == 'schedule' || github.event.inputs.environment == 'production'
     runs-on: ubuntu-latest
     environment: production
     env:
