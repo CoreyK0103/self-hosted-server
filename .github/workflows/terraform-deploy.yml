@@ -1,21 +1,23 @@
-name: Production Teardown
+name: "Terraform Deploy"
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 21 * * *" # Every day at 9 PM UTC
+  push:
+    branches:
+      - main
+      - dev
 
 jobs:
-  production-teardown:
+  terraform-deploy:
+    name: Terraform (${{ github.ref_name == 'main' && 'production' || 'development' }})
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
     env:
-      BUILD_ENV: prod
+      BUILD_ENV: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
     permissions:
       contents: read
       id-token: write
     concurrency:
-      group: production
+      group: ${{ github.ref_name == 'main' && 'production' || 'development' }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v6
@@ -34,6 +36,14 @@ jobs:
         working-directory: ./terraform
         run: make init
 
+      - name: Terraform Validate
+        working-directory: ./terraform
+        run: make validate ARGS="-no-color"
+
+      - name: Terraform Plan
+        working-directory: ./terraform
+        run: make plan ARGS="-no-color"
+
       - name: Terraform Apply
         working-directory: ./terraform
-        run: make destroy ARGS="-no-color -auto-approve"
+        run: make apply ARGS="-no-color -auto-approve"

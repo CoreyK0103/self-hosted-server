@@ -1,20 +1,23 @@
-name: "Development Plan"
+name: "Terraform Plan"
 
 on:
   pull_request:
-    branches: [dev]
+    branches:
+      - main
+      - dev
 
 jobs:
-  development-plan:
+  terraform-plan:
+    name: Terraform (${{ github.ref_name == 'main' && 'production' || 'development' }})
     runs-on: ubuntu-latest
-    environment: development-plan
+    environment: ${{ github.base_ref == 'main' && 'production-plan' || 'development-plan' }}
     env:
-      BUILD_ENV: dev
+      BUILD_ENV: ${{ github.base_ref == 'main' && 'prod' || 'dev' }}
     permissions:
       contents: read
       id-token: write
     concurrency:
-      group: development
+      group: ${{ github.base_ref == 'main' && 'production' || 'development' }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v6
