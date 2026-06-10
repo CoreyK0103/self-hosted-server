@@ -1,0 +1,45 @@
+name: "Terraform Plan"
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  terraform-plan:
+    name: Terraform (${{ github.base_ref == 'main' && 'production' || 'development' }})
+    runs-on: ubuntu-latest
+    environment: ${{ github.base_ref == 'main' && 'production-plan' || 'development-plan' }}
+    env:
+      BUILD_ENV: ${{ github.base_ref == 'main' && 'prod' || 'dev' }}
+    permissions:
+      contents: read
+      id-token: write
+    concurrency:
+      group: ${{ github.base_ref == 'main' && 'production' || 'development' }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHub_Actions_Role_ci
+          aws-region: eu-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: make init
+
+      - name: Terraform Validate
+        working-directory: ./terraform
+        run: make validate ARGS="-no-color"
+
+      - name: Terraform Plan
+        working-directory: ./terraform
+        run: make plan ARGS="-no-color"
