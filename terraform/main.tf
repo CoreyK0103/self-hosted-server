@@ -6,7 +6,7 @@ module "s3_bucket" {
 
   source = "git::https://github.com/terraform-aws-modules/terraform-aws-s3-bucket.git?ref=v5.14.0"
 
-  bucket        = "self-hosted-server-init-bucket"
+  bucket        = "${local.resource_prefix}-init"
   force_destroy = true
 
   server_side_encryption_configuration = {
