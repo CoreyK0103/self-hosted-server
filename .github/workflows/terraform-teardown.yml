@@ -6,7 +6,7 @@ on:
       environment:
         description: "Environment to teardown"
         required: true
-        default: "both"
+        default: development
         type: choice
         options:
           - development
