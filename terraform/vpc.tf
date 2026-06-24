@@ -25,7 +25,10 @@ module "fck-nat" {
   ha_mode   = true
 
   update_route_tables = true
-  route_tables_ids    = module.vpc.private_route_table_ids
+  route_tables_ids = {
+    for idx, rt_id in module.vpc.private_route_table_ids :
+    "private-route-table-${idx}" => rt_id
+  }
 
   instance_type = "tg4.nano"
 
