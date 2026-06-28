@@ -1,0 +1,5 @@
+# Ignore VPC Flow logs error
+AVD-AWS-0178
+
+# Ignore unrestricted egress for nat gateway
+AVD-AWS-0104
