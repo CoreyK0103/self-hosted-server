@@ -1,12 +1,12 @@
 module "vpc" {
-  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=v6.6.1"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=3ffbd46fb1c7733e1b34d8666893280454e27436"
 
   name = "${local.resource_prefix}-vpc"
   cidr = local.vpc_cidr
   azs  = local.azs
 
-  public_subnets  = local.public_subnets
-  private_subnets = local.private_subnets
+  public_subnets = local.public_subnets
+  intra_subnets  = local.private_subnets
 
   create_igw           = true
   enable_nat_gateway   = false
@@ -17,7 +17,7 @@ module "vpc" {
 }
 
 module "fck-nat" {
-  source = "git::https://github.com/RaJiska/terraform-aws-fck-nat.git?ref=v1.6.0"
+  source = "git::https://github.com/RaJiska/terraform-aws-fck-nat.git?ref=2ef15ba78c33ad2289afefdc233847b457548fbb"
 
   name      = "${local.resource_prefix}-nat"
   vpc_id    = module.vpc.vpc_id
@@ -26,7 +26,7 @@ module "fck-nat" {
 
   update_route_tables = true
   route_tables_ids = {
-    for idx, rt_id in module.vpc.private_route_table_ids :
+    for idx, rt_id in module.vpc.intra_route_table_ids :
     "private-route-table-${idx}" => rt_id
   }
 
