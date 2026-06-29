@@ -5,27 +5,27 @@ resource "aws_security_group" "lambda_test_sg" {
   vpc_id      = module.vpc.vpc_id
 
   egress {
-    description  = "HTTPS outbound"
-    from_port    = 443
-    to_port      = 443
-    protocol     = "tcp"
-    cidr_blocks  = ["0.0.0.0/0"]
+    description = "HTTPS outbound"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    description  = "DNS to VPC resolver"
-    from_port    = 53
-    to_port      = 53
-    protocol     = "udp"
-    cidr_blocks  = [local.vpc_cidr]
+    description = "DNS to VPC resolver"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = [local.vpc_cidr]
   }
 
   egress {
-    description  = "DNS TCP fallback"
-    from_port    = 53
-    to_port      = 53
-    protocol     = "tcp"
-    cidr_blocks  = [local.vpc_cidr]
+    description = "DNS TCP fallback"
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = [local.vpc_cidr]
   }
 
   tags = merge(local.tags, { Name = "${local.resource_prefix}-lambda-test-sg" })
