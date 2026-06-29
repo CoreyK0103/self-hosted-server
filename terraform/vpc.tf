@@ -30,7 +30,7 @@ module "fck-nat" {
     "private-route-table-${idx}" => rt_id
   }
 
-  instance_type = "tg4.nano"
+  instance_type = "t4g.nano"
 
   tags = local.tags
 }
